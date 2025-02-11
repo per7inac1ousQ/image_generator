@@ -1,28 +1,25 @@
 import torch
-from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusion3Pipeline
 from PIL import Image
 
 # Replace the model version with your required version if needed
-pipeline = StableDiffusionPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
+pipeline = StableDiffusion3Pipeline.from_pretrained(
+    "stabilityai/stable-diffusion-3-medium-diffusers",
+    torch_dtype=torch.float16
 )
 
 # Running the inference on GPU with cuda enabled
 pipeline = pipeline.to('cuda')
 
-prompt = ("Generate a realistic family friendly image for an event with the following description: "
-          "`KidsArt! teaches children art and art appreciation - term time weekly classes,"
-          " holiday camps, parties, private classes and art scholarship preparation. "
-          "We carry reviews of London art exhibitions and run the KidsArt! Store for"
-          " art supplies and children's books.Classes are held at KidsArt!"
-          " Children are taught how to paint, draw, print, work with clay, sculpt, collage, "
-          "use soft and oil pastels, and other core techniques, whilst at the same time learning "
-          "about famous artists and their styles - each project is inspired by an artist or art movement."
-          "that accepts kids between 18 months - 3 years and the event title "
-          "is `Lisa Gilbert Academy of Ballet and Performing Arts - Baby Ballet` ")
+prompt = ("a slender punk female sitting reclined against the wall of a dark street savoring a short cigarette, on the wall spray painted in red "
+          "\"Punk\'s Not Dead\", hyper realistic, detailed dreads pink and black hair, side mohawk haircut, large necklaces, tattoos on all body, nose lip eyebrow piercing, worn crop tank top, dirty and torn apart cloths, wide dark background, luis royo illustration, rembrandt lighting, concept art, fantasy art, hyper detailed, intricate, sharp focus, best quality, masterpiece")
 
-
-image = pipeline(prompt=prompt).images[0]
+image = pipeline(
+    prompt=prompt,
+    negative_prompt="",
+    num_inference_steps=28,
+    guidance_scale=7.0,
+).images[0]
 
 if __name__ == "__main__":
     # torch.cuda.is_available()
