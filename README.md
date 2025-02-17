@@ -13,7 +13,7 @@ python -m venv .env
 That should enable a virtual environment for you to start working with
 
 * Install all necessary requirements by running:
-`python -m pip install requirements.txt`
+`python -m pip install -r requirements.txt`
 
 * You will need Nvidia CUDA drivers to run pytorch, you can find
 the installation [here](https://pytorch.org/get-started/locally/). Just make sure to choose Pip

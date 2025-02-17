@@ -6,6 +6,11 @@ torch.set_float32_matmul_precision("high")
 
 model_id = "stabilityai/stable-diffusion-3-medium-diffusers"
 
+# text_encoder = T5EncoderModel.from_pretrained(
+#     model_id,
+#     subfolder="text_encoder_3",
+#     quantization_config=quantization_config,
+# )
 
 pipeline = StableDiffusion3Pipeline.from_pretrained(
     model_id,
@@ -14,6 +19,7 @@ pipeline = StableDiffusion3Pipeline.from_pretrained(
     tokenizer_3=None
 )
 pipeline.set_progress_bar_config(disable=True)
+pipeline = pipeline.to('cuda')
 
 # Running the inference on GPU with cuda enabled
 prompt = ("slender punk female sitting reclined against the wall of a dark street savoring a short cigarette,"
@@ -26,7 +32,6 @@ image = pipeline(
     max_sequence_length=128,
     guidance_scale=7.0,
 ).images[0]
-pipeline = pipeline.to('cuda')
 
 
 if __name__ == "__main__":
